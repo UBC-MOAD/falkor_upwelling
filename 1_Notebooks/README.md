@@ -11,6 +11,10 @@ Descriptions below the links are from the first cell of the notebooks
     
     In this notebook, we look at the spatial variability of the California Undercurrent between $42^\circ N$ and $48^\circ N$.  
 
+* ##[NOAA_MB07.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/NOAA_MB07.ipynb)  
+    
+    This notebook looks at the NOAA data off the west coast of BC and US.  
+
 * ##[hist_TS.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/hist_TS.ipynb)  
     
     This notebook shows TS plots with histogram frequency data. histxy command courtesy of Kyle.  
