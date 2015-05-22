@@ -113,7 +113,10 @@ def csvWOD_readcasts(fnm,MAX_CASTS = -1):
                         all_casts[-1][all_casts[-1]['Variables'][count]].append(np.nan)
                     # otherwise, append a floating point value
                     elif len(row[ii].rstrip()) > 0:
-                        all_casts[-1][all_casts[-1]['Variables'][count]].append(float(row[ii]))
+                        if '*' not in row[ii]:
+                            all_casts[-1][all_casts[-1]['Variables'][count]].append(float(row[ii]))
+                        else:
+                            all_casts[-1][all_casts[-1]['Variables'][count]].append(np.nan)
                         
     # return the cast information
     return all_casts
