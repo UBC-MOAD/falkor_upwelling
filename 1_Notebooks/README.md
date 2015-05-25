@@ -21,6 +21,8 @@ Descriptions below the links are from the first cell of the notebooks
       
     This notebook attempts to determine the source of the 33.9psu, 6.3$^\circ C$ water that was found in the 2013 Falkor Cruise around MB07 and LB08.  
 
+* ##[NOAA_observed_levels.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/NOAA_observed_levels.ipynb)  
+    
 * ##[NOAA_find_eddy_water.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/NOAA_find_eddy_water.ipynb)  
     
     This script attempts to determine the source of the 33.9psu, 6.3$^\circ C$ water that was found in the 2013 Falkor Cruise around MB07 and LB08.  
