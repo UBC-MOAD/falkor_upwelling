@@ -33,3 +33,7 @@ Descriptions below the links are from the first cell of the notebooks
     
     This notebook shows TS plots with histogram frequency data. histxy command courtesy of Kyle.  
 
+* ##[NOAA_eddy_water_variability.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/NOAA_eddy_water_variability.ipynb)  
+    
+    In this notebook, we track with higher precision how the eddy water changes with year.  
+
