@@ -1,9 +1,17 @@
+'''
+This file contains functions that allow reading of NOAA WOD CSV files.
+
+Rob Irwin, May 2015
+v0.2
+----
+renamed functions to remove redundant csvWOD prefix
+'''
 import csv
 import numpy as np
 
-def csvWOD_readcasts(fnm,MAX_CASTS = -1):
+def read_casts(fnm,MAX_CASTS = -1):
     '''
-    csvWOD_readcasts
+    read_casts
     inputs:
     fnm -- the filename of the CSV data from WOD13 database
     MAX_CASTS (optional) -- maximum number of casts to parse
@@ -121,9 +129,9 @@ def csvWOD_readcasts(fnm,MAX_CASTS = -1):
     # return the cast information
     return all_casts
 
-def csvWOD_filter_region(casts,min_lon,max_lon,min_lat,max_lat):
+def filter_region(casts,min_lon,max_lon,min_lat,max_lat):
     '''
-    csvWOD_filter_region
+    filter_region
     Inputs:
     casts -- list of dictionary item casts info
     min_lon -- minimum longitude (defining bounding region)
@@ -151,9 +159,9 @@ def csvWOD_filter_region(casts,min_lon,max_lon,min_lat,max_lat):
     # return the filtered list
     return ret_casts
 
-def csvWOD_filter_variables(casts,var_list):
+def filter_variables(casts,var_list):
     '''
-    csvWOD_filter_variables
+    filter_variables
     Inputs:
     casts -- list of dictionary item casts info
     var_list -- list of variables desired
@@ -184,7 +192,7 @@ def csvWOD_filter_variables(casts,var_list):
     # return the filtered casts
     return ret_casts
 
-def csvWOD_filter_year(casts,min_year,max_year=-1):
+def filter_year(casts,min_year,max_year=-1):
     '''
     csvWOD_filter_year
     Inputs:
@@ -213,7 +221,7 @@ def csvWOD_filter_year(casts,min_year,max_year=-1):
     # return the filtered list of casts
     return ret_casts
 
-def csvWOD_filter_month(casts,min_month,max_month=-1):
+def filter_month(casts,min_month,max_month=-1):
     '''
     csvWOD_filter_month
     Inputs:
@@ -249,7 +257,10 @@ def csvWOD_filter_month(casts,min_month,max_month=-1):
     # return the filtered list of casts
     return ret_casts
 
-def csvWOD_get_var_depth(casts,var,depth):
+def get_var_depth(casts,var,depth):
+    # not functional yet
+    return 0
+
     lon = []
     lat = []
     val = []
