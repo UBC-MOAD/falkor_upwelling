@@ -194,6 +194,27 @@ The first set of analysis focuses on the correlation of wind direction at Destru
 
 Looking at the current moorings at 30m, 75m and 200m, it is found that the prevailing currents in the top 75m are likely inducing the deep current at 200m. The 75m mooring shows that the current there is mainly cross-canyon and south to southeastward. It is found that the current weakens in August and turns northeastward (mostly eastward). At 200m in depth, the current is almost always northward, although it is stronger in July and August. This observation supports the expected summer upwelling events. The interpretation here is that the 200m current is up-canyon as a response of the overlying 30m and 75m currents moving across-canyon.
 
+\subsection{\cite{thomson1996current}; A current velocity index of ocean variability}
+
+Using the A1 mooring on the continental slope southwest of Vancouver Island, the currents were evaluated between October 1989-March 1995, and an index was created. 
+The index is defined as:
+\begin{align}
+ I_v = \alpha \left| v_2' \frac{\partial v}{\partial z} \right| \frac{\partial v}{\partial z}, \qquad \alpha = -\hbox{sgn} (f) \left[ (f^2 + \delta^2) \sigma_v \right]^{-1}.
+\end{align}
+Where $\delta$ is a friction parameter, $\sigma_v$ is the standard deviation of the near-surface current velocity $v_s= \overline{v_s} + v_s'$, where $\overline{v_s}$ is the mean of the near-surface current velocity and $v_s'$ is the fluctuation about the mean.
+
+It is noted that in section 2.3 of this manuscript, the authors prescribe a value of $\delta \approx 0.24 \times 10^{-5} s^{-1}$.
+
+This index ($I_v$), based on velocity derivatives, has some definitive properties.
+\begin{itemize}
+ \item ``characterizes low-frequency baroclinic variability over the continental margin, and is linked, through the use of the thermal wind relation, to instability processes that effect the transfer of potential energy stored in the mean cross-slope density field to the kinetic energy of mesoscale meanders and eddies''
+ \item along eastern boundary regions (i.e. BC coast region), the index ranges from large positive values during summer upwelling conditions to large negative values during winter downwelling conditions
+ \item additionally, transition seasons (spring and fall) are characterized by $I_v \approx 0$
+\end{itemize}
+
+The authors go on to compare this velocity index to the Bakun index, which characterizes coastal upwelling conditions based on the wind-drive cross-shore Ekman transport.
+
+
 \section{Note on Spice as a Measurement}
 
 Spice is a commonly used quantity to describe the changing of water properties along an isopycnal surface. Water is ``spicy'' compared to a reference point if it is warmer and saltier. Water is ``mintier'' compared to a reference point if it is cooler and fresher. The mathematical definition for spice is shown in \cite{flament2002state}. Simply speaking, it is a derived measurement chosen so that changes in spice ($\pi$) do not correlate to changes in $\sigma_\theta$. Full discussion of the state variable is available in \cite{flament2002state}.
