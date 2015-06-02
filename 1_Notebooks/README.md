@@ -15,6 +15,10 @@ Descriptions below the links are from the first cell of the notebooks
     
     This notebook looks at the NOAA data off the west coast of BC and US.  
 
+* ##[Untitled.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/Untitled.ipynb)  
+    
+    This notebook bins casts differently and calculates dominant water properties slightly differently than the previous NB.  
+
 * ##[NOAA_find_eddy_water2.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/NOAA_find_eddy_water2.ipynb)  
     
     USES EXTENDED WOD13 DATA  
@@ -29,6 +33,8 @@ Descriptions below the links are from the first cell of the notebooks
       
     Loading data takes roughly 43s.  
 
+* ##[NOAA_annual_JdFE_waters.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/NOAA_annual_JdFE_waters.ipynb)  
+    
 * ##[hist_TS.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/hist_TS.ipynb)  
     
     This notebook shows TS plots with histogram frequency data. histxy command courtesy of Kyle.  

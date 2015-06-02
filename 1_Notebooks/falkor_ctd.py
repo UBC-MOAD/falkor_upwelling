@@ -1,13 +1,14 @@
 import os
 import numpy as np
 
-DIRECTORY = '/ocean/sallen/allen/research/Falkor/CTD_GG'
+DIRECTORY = '/ocean/rirwin/2_FALKOR_Data/7_Falkor_CTD/'
 
 def extract_quantities(line):
     index = np.int(line.partition(' ')[0])-1
     return index
     
 def falkor_ctd_dat(fnm):
+    print '> ', fnm
     QUANTITIES = {'Pressure': 'Pressure','Temperature':'Temperature:Primary','Transmissivity':'Tranmissivity',
                   'Fluorescence': 'Fluorescence','Turbidity':'Turbidity','Salinity':'Salinity:T',
                   'Oxygen':'Oxygen:Voltage'}
