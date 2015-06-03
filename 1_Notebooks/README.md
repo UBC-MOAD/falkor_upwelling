@@ -33,6 +33,8 @@ Descriptions below the links are from the first cell of the notebooks
       
     Loading data takes roughly 43s.  
 
+* ##[IOS_reader.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/IOS_reader.ipynb)  
+    
 * ##[NOAA_annual_JdFE_waters.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/NOAA_annual_JdFE_waters.ipynb)  
     
 * ##[hist_TS.ipynb](http://nbviewer.ipython.org/urls/bitbucket.org/canyonsubc/falkor_upwelling/raw/tip/1_Notebooks/hist_TS.ipynb)  

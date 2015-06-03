@@ -8,14 +8,14 @@ def extract_quantities(line):
     return index
     
 def falkor_ctd_dat(fnm):
-    print '> ', fnm
     QUANTITIES = {'Pressure': 'Pressure','Temperature':'Temperature:Primary','Transmissivity':'Tranmissivity',
                   'Fluorescence': 'Fluorescence','Turbidity':'Turbidity','Salinity':'Salinity:T',
                   'Oxygen':'Oxygen:Voltage'}
 
     index = {}
 
-    f = open(os.path.join(DIRECTORY, fnm), 'rt')
+    f = open(DIRECTORY+fnm, 'rt')
+    print '> reading ', fnm
     for line in f:
         line = line.strip()
         # look for start time
