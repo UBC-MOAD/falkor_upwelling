@@ -46,24 +46,100 @@ def load_dat(fnm):
     '''
     load_dat
     
-    Loads the pickled data from save_dat
+    Loads the pickled data from save_dat.
+    Note that loading from different standard-key ctd data will
+    create a little bit of a mess in the loaded DB. I suggest that
+    anytime changes are made to the standard-keys, recompile the database.
     '''
     global CTD_DAT, STANDARD_KEYS
     
-    print '> delete global CTD_DAT'
-    reset_global()
+    #print '> delete global CTD_DAT'
+    #reset_global()
     
     print '> open ', fnm
     fid = open(fnm,'rb')
     
     print '> load CTD_DAT'
-    CTD_DAT = pickle.load(fid)
+    CTD_DAT.extend(pickle.load(fid))
     print '> load STANDARD_KEYS'
-    STANDARD_KEYS = pickle.load(fid)
+    STANDARD_KEYS.extend(pickle.load(fid))
+    
+    # remove duplicate key entries
+    STANDARD_KEYS = list(set(STANDARD_KEYS))
     
     print '> close ', fnm
     fid.close()
     print '> complete'
+
+def filter_keys():
+    '''
+    make sure there is data available for all standard keys, otherwise, delete cast
+    '''
+    global CTD_DAT, STANDARD_KEYS
+    rem_ind = []
+    for cnt,cast in enumerate(CTD_DAT):
+        for key in STANDARD_KEYS:
+            if key not in cast:
+                rem_ind.append(cnt)
+                break
+            if cast[key] is None:
+                rem_ind.append(cnt)
+                break
+            if type(cast[key]) is list and len(cast[key]) == 0:
+                rem_ind.append(cnt)
+                break
+    # remove any duplicate entries
+    rem_ind = list(set(rem_ind))
+    
+    # loop through the list in reverse, so that indices are consistent
+    rem_ind = sorted(rem_ind)[::-1]
+    for ii in rem_ind:
+        del CTD_DAT[ii]
+
+def filter_year(MIN_YEAR):
+    '''
+    filters any year before the specified MIN_YEAR
+    '''
+    global CTD_DAT, STANDARD_KEYS
+    rem_ind = []
+    for cnt,cast in enumerate(CTD_DAT):
+        if cast['Year'] < MIN_YEAR:
+            rem_ind.append(cnt)
+
+    # remove any duplicate entries
+    rem_ind = list(set(rem_ind))
+    
+    # loop through the list in reverse, so that indices are consistent
+    rem_ind = sorted(rem_ind)[::-1]
+    for ii in rem_ind:
+        del CTD_DAT[ii]
+
+def filter_anom():
+    '''
+    filters anomalous values of T and S
+    '''    
+    global CTD_DAT, STANDARD_KEYS
+    rem_ind = []
+    
+    # practical limits for temp/salinity:
+    # T (0,30) deg C
+    # S (0,50) psu
+    for cnt,cast in enumerate(CTD_DAT):
+        if min(cast['Temperature']) < 0 or max(cast['Temperature']) > 30:
+            rem_ind.append(cnt)
+            continue
+        if min(cast['Salinity']) < 0 or max(cast['Salinity']) > 50:
+            rem_ind.append(cnt)
+            continue
+    
+    # remove any duplicate entries
+    rem_ind = list(set(rem_ind))
+    
+    # loop through the list in reverse, so that indices are consistent
+    rem_ind = sorted(rem_ind)[::-1]
+    for ii in rem_ind:
+        del CTD_DAT[ii]
+            
 
 def reset_global():
     del CTD_DAT[:]
@@ -77,7 +153,9 @@ def load_ios():
     global CTD_DAT
     
     DIR = '/ocean/rirwin/2_FALKOR_Data/6_IOS_Data/'
-    filenames = [DIR+f for f in os.listdir(DIR) if (f.endswith('che') or f.endswith('bot') or f.endswith('ctd') or f.endswith('CTD') or f.endswith('CHE') or f.endswith('BOT'))]
+    # note, don't bother with che, CHE, bot or BOT
+    #filenames = [DIR+f for f in os.listdir(DIR) if (f.endswith('che') or f.endswith('bot') or f.endswith('ctd') or f.endswith('CTD') or f.endswith('CHE') or f.endswith('BOT'))]
+    filenames = [DIR+f for f in os.listdir(DIR) if (f.endswith('ctd') or f.endswith('CTD'))]
 
     for count,filename in enumerate(sorted(filenames)):
         print '> reading ', filename
@@ -101,15 +179,18 @@ def load_noaa():
     global CTD_DAT
     
     DIR = '/ocean/rirwin/2_FALKOR_Data/5_WOD13_Data/WOD13_004/'
+    # load in any files from this directory
     filenames = [DIR+f for f in os.listdir(DIR) if (f.endswith('csv'))]
     #filenames = [DIR+'ocldb1432579402.10924.CTD5.csv']
 
+    # loop through the files and read in using the csvWOD module
     for count,filename in enumerate(sorted(filenames)):
         print '> reading ', filename
         noaa_casts = csvWOD.read_casts(filename)
         print '> success'
         
         print '> convert and append'
+        # after reading, convert the casts to dictionaries
         for dat in noaa_casts:
             tmp = convert_noaa_dict(dat)
             if tmp is None:
@@ -134,11 +215,12 @@ def remove_duplicates():
         for cnt2,cast2 in enumerate(CTD_DAT[cnt1+1:]):
             # compare IDs -- if they are equivalent, then its considered a duplicate
             if cast1['ID'] == cast2['ID']:
-                # keep the cast with the most information
+                # if there's no information here, don't keep it anyways
                 if cast1['Temperature'] is None:
                     dupl_inds.append(cnt1)
                 if cast2['Temperature'] is None:
                     dupl_inds.append(cnt1+cnt2+1)
+                # keep the cast with the most information
                 if cast1['Temperature'] is not None and cast2['Temperature'] is not None:
                     if len(cast2['Temperature']) > len(cast1['Temperature']):
                         dupl_inds.append(cnt1)
@@ -147,14 +229,16 @@ def remove_duplicates():
                 print '> DUPLICATE IDS ', cast1['ID']
     
     # remove any duplicate entries of the duplicates
-    # e.g. this may happen if a BOT cast has the same ID as a CHE and CTD cast in the IOS database
-    #      - there would be 3 ID's, and the one with the fewest depth entries might be listed twice
     dupl_inds = list(set(dupl_inds))
+    
+    print '> removing ', str(len(dupl_inds)), ' casts'
     
     # loop through the duplicate list in reverse, so that indices are consistent
     dupl_inds = sorted(dupl_inds)[::-1]
     for ii in dupl_inds:
         del CTD_DAT[ii]
+    
+    print '> finished'
 
 def convert_ios_dict(dat):
     '''
@@ -188,10 +272,13 @@ def convert_ios_dict(dat):
     
     # ID is the complicated one, need to compare to available NOAA data
     # -- this is necessary to determine whether two casts are repeated
-    
+    # -- 17 character unique identifier
     # FMT: YR   MNTH DAY  LONG      LAT
     #      4chr 2chr 2chr 3chr.2chr 2chr.2chr
-    # it is a 17 character unique identifier
+    # e.g: 20100915125314850
+    #     - cast from Sept 15, 2010
+    #     - lon: 125.31, lat 48.50
+    # NOTE: doesn't differentiate between N/S or E/W for lat/lon
     new_dat['ID'] = '%04d%02d%02d%03.2f%02.2f' % (new_dat['Year'], new_dat['Month'], new_dat['Day'], np.abs(new_dat['Longitude']), np.abs(new_dat['Latitude']))
     # remove the decimal point from lat and lon
     new_dat['ID'] = new_dat['ID'].replace('.','')
@@ -200,7 +287,7 @@ def convert_ios_dict(dat):
         # convert from pressure to depth
         if 'Pressure' in var['Name']:
             # need to use Seawater package to convert
-            # from dbar to depth***
+            # from dbar to depth
             new_dat['Depth'] = []
             for ii in dat['DATA'][count]:
                 new_dat['Depth'].append(SW.dpth(ii,new_dat['Latitude']))
