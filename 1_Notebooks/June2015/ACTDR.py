@@ -13,10 +13,31 @@ import csvWOD
 import os
 import pickle
 
-STANDARD_KEYS = ['Longitude','Latitude','ID','Day','Month','Year','Temperature','Salinity','Depth']
+STANDARD_KEYS = ['Longitude','Latitude','ID','Day','Month','Year','Temperature','Salinity','Depth','sigmaT']
 IOS_DAT_CONV_KEYS = {'Temperature:Primary' : 'Temperature', 'Temperature:Secondary' : 'Temp2', 'Salinity:T0:C0' : 'Salinity', 'Temperature' : 'Temperature', 'Salinity' : 'Salinity'}
 
 CTD_DAT = []
+
+def conv_v02():
+    '''
+    conv_v02
+    
+    Takes a v01 DB and converts it to a v02 DB.
+    v02:
+    - contains sigmaT data, as calculated by seawater package   
+    '''
+    global CTD_DAT, STANDARD_KEYS
+    
+    print '> Converting to v02'
+    print '> Appending calculated sigmaT values'
+    for cast in CTD_DAT:
+        P = SW.pres(cast['Depth'],cast['Latitude'])
+        cast['sigmaT'] = SW.dens(cast['Salinity'],cast['Temperature'],P)-1000
+        inds = ~np.isnan(cast['sigmaT'])
+        cast['sigmaT'] = np.interp(np.arange(0,len(cast['sigmaT'])),np.arange(0,len(cast['sigmaT']))[inds],cast['sigmaT'][inds])
+        
+    print '> Complete'
+    
 
 def save_dat(fnm):
     '''
