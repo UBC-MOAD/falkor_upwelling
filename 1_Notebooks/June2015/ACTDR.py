@@ -13,8 +13,8 @@ import csvWOD
 import os
 import pickle
 
-STANDARD_KEYS = ['Longitude','Latitude','ID','Day','Month','Year','Temperature','Salinity','Depth','sigmaT']
-IOS_DAT_CONV_KEYS = {'Temperature:Primary' : 'Temperature', 'Temperature:Secondary' : 'Temp2', 'Salinity:T0:C0' : 'Salinity', 'Temperature' : 'Temperature', 'Salinity' : 'Salinity'}
+STANDARD_KEYS = ['Longitude','Latitude','ID','Day','Month','Year','Temperature','Salinity','Depth','sigmaT','Oxygen']
+IOS_DAT_CONV_KEYS = {'Temperature:Primary' : 'Temperature', 'Temperature:Secondary' : 'Temp2', 'Salinity:T0:C0' : 'Salinity', 'Temperature' : 'Temperature', 'Salinity' : 'Salinity','Oxygen':'Oxygen:Voltage'}
 
 CTD_DAT = []
 
@@ -176,7 +176,7 @@ def load_ios():
     DIR = '/ocean/rirwin/2_FALKOR_Data/6_IOS_Data/'
     # note, don't bother with che, CHE, bot or BOT
     #filenames = [DIR+f for f in os.listdir(DIR) if (f.endswith('che') or f.endswith('bot') or f.endswith('ctd') or f.endswith('CTD') or f.endswith('CHE') or f.endswith('BOT'))]
-    filenames = [DIR+f for f in os.listdir(DIR) if (f.endswith('ctd') or f.endswith('CTD'))]
+    filenames = [DIR+f for f in os.listdir(DIR) if (f.endswith('ctd') or f.endswith('CTD') or f.endswith('avg'))]
 
     for count,filename in enumerate(sorted(filenames)):
         print '> reading ', filename
