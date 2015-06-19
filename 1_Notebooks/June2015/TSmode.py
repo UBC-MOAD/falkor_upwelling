@@ -159,7 +159,7 @@ def get_all_vars_at_depth(cast_inf,dpth,var_nm):
             all_vars.append({var_nm : val, 'Latitude' : cast['Latitude'], 'Longitude' : cast['Longitude']})
     return all_vars
 
-def get_grid_data(info,lon_region,lat_region,var_nm):
+def get_grid_data(info,lon_region,lat_region,var_nm,interp='nearest'):
     '''
     get_grid_data
     
@@ -174,10 +174,10 @@ def get_grid_data(info,lon_region,lat_region,var_nm):
 
     pts = np.array([x,y]).transpose()
     
-    grid_dat = griddata(pts, z, (lon_region, lat_region), method='linear')
+    grid_dat = griddata(pts, z, (lon_region, lat_region), method=interp)
     return grid_dat
 
-def get_isopyc_surface(info,sigT,var_nm,lon_dat,lat_dat,Nlon=50,Nlat=50):
+def get_isopyc_surface(info,sigT,var_nm,lon_dat,lat_dat,Nlon=50,Nlat=50,interp='nearest'):
     '''
     get_isopyc_surface
     
@@ -187,20 +187,20 @@ def get_isopyc_surface(info,sigT,var_nm,lon_dat,lat_dat,Nlon=50,Nlat=50):
     lon_region,lat_region = np.meshgrid(np.linspace(lon_dat[0],lon_dat[1],Nlon),np.linspace(lat_dat[0],lat_dat[1],Nlat))
     sigT_filt = get_all_vars_at_isopyc(info,sigT,var_nm)
     print '> using ', len(sigT_filt), ' cast data'
-    grid_dat = get_grid_data(sigT_filt,lon_region,lat_region,var_nm)
+    grid_dat = get_grid_data(sigT_filt,lon_region,lat_region,var_nm,interp)
     
     return (lon_region,lat_region,grid_dat,sigT_filt)
 
-def get_depth_surface(info,dpth,var_nm,lon_dat,lat_dat):
+def get_depth_surface(info,dpth,var_nm,lon_dat,lat_dat,Nlon=50,Nlat=50,interp='nearest'):
     '''
     get_depth_surface
     
     Returns a regular grid of variable var_nm on depth surface dpth. 
     Data is interpolated from all casts in info.
     '''
-    lon_region,lat_region = np.meshgrid(np.linspace(lon_dat[0],lon_dat[1],50),np.linspace(lat_dat[0],lat_dat[1],50))
+    lon_region,lat_region = np.meshgrid(np.linspace(lon_dat[0],lon_dat[1],Nlon),np.linspace(lat_dat[0],lat_dat[1],Nlat))
     dpth_filt = get_all_vars_at_depth(info,dpth,var_nm)
-    grid_dat = get_grid_data(dpth_filt,lon_region,lat_region,var_nm)
+    grid_dat = get_grid_data(dpth_filt,lon_region,lat_region,var_nm,interp)
     
     return (lon_region,lat_region,grid_dat,dpth_filt)
 
