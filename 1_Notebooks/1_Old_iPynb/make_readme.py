@@ -24,7 +24,7 @@ import re
 
 nbviewer = 'http://nbviewer.ipython.org/urls'
 repo = 'bitbucket.org/canyonsubc/falkor_upwelling/raw/tip'
-repo_dir = '1_Notebooks/June2015'
+repo_dir = '1_Notebooks/1_Old_iPynb'
 url = os.path.join(nbviewer, repo, repo_dir)
 title_pattern = re.compile('#{1,6} ?')
 readme = """The links below are to static renderings of the notebooks via
