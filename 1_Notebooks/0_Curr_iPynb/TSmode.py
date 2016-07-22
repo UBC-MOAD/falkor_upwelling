@@ -32,7 +32,7 @@ def filter_CTD_list(filt_type,vmin,vmax=0):
                 flist.append(cast)
     elif filt_type == 'REGION':
         if len(vmin) != 2 or len(vmax) != 2:
-            print '> ERROR :: vmin and vmax must be lists of length 2 for REGION'
+            print ('> ERROR :: vmin and vmax must be lists of length 2 for REGION')
             return None
         
         for ii,cast in enumerate(ACTDR.CTD_DAT):
@@ -40,7 +40,7 @@ def filter_CTD_list(filt_type,vmin,vmax=0):
                 cast['Longitude'] <= vmax[0] and cast['Latitude'] <= vmax[1]:
                 flist.append(cast)
     else:
-        print '> ERROR :: unexpected filter type'
+        print ('> ERROR :: unexpected filter type')
         return None
     
     return flist
@@ -112,7 +112,7 @@ def get_var_at_isopyc(cast,sigT,var_nm):
             #cast['sigmaT'] = np.interp(x(nans),x(~nans),cast['sigmaT'][~nans])
             return np.interp(sigT,cast['sigmaT'],cast[var_nm])
         else:
-            print 'Key ', var_nm, ' not found.'
+            print ('Key ', var_nm, ' not found.')
             return np.nan
     else:
         return np.nan
@@ -128,7 +128,7 @@ def get_var_at_depth(cast,dpth,var_nm):
         if var_nm in cast:
             return np.interp(dpth,cast['Depth'],cast[var_nm])
         else:
-            print 'Key ', var_nm, ' not found.'
+            print ('Key ', var_nm, ' not found.')
             return np.nan
     else:
         return np.nan
@@ -186,7 +186,7 @@ def get_isopyc_surface(info,sigT,var_nm,lon_dat,lat_dat,Nlon=50,Nlat=50,interp='
     '''
     lon_region,lat_region = np.meshgrid(np.linspace(lon_dat[0],lon_dat[1],Nlon),np.linspace(lat_dat[0],lat_dat[1],Nlat))
     sigT_filt = get_all_vars_at_isopyc(info,sigT,var_nm)
-    print '> using ', len(sigT_filt), ' cast data'
+    print ('> using ', len(sigT_filt), ' cast data')
     grid_dat = get_grid_data(sigT_filt,lon_region,lat_region,var_nm,interp)
     
     return (lon_region,lat_region,grid_dat,sigT_filt)
@@ -204,13 +204,13 @@ def get_depth_surface(info,dpth,var_nm,lon_dat,lat_dat,Nlon=50,Nlat=50,interp='n
     
     return (lon_region,lat_region,grid_dat,dpth_filt)
 
-def get_topo():
+def get_topo(fnm='/ocean/rirwin/2_FALKOR_Data/3_Repo/topo/SouthVIgrid.mat'):
     '''
     get_topo
     
     Returns the topographic data in region around JdFE.
     '''
-    topo=sio.loadmat('/ocean/rirwin/2_FALKOR_Data/3_Repo/topo/SouthVIgrid.mat')
+    topo=sio.loadmat(fnm)
     
     tDat = {'lon' : [], 'lat' : [], 'dpth' : []}
     
